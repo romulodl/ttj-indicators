@@ -4,7 +4,7 @@ Code repository Afor the indicators used by me and others shared in the discord 
 
 ## Usage
 
-Find an indicator, copy the code and use it in your strategy.
+Find an indicator, copy the code, uncomment the area for C1/C2/C3 and use it in your strategy.
 
 #### How to add an indicator here
 

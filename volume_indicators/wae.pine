@@ -1,0 +1,39 @@
+// Waddah Attar Explosion
+//
+// Original script: https://uk.tradingview.com/script/d9IjcYyS-Waddah-Attar-Explosion-V2-SHK/
+// Used as: Volume
+
+wae_sensitivity   = input(150, title="Sensitivity")
+wae_fastLength    = input(20, title="FastEMA Length")
+wae_slowLength    = input(40, title="SlowEMA Length")
+wae_channelLength = input(20, title="BB Channel Length")
+wae_mult          = input(2.0, title="BB Stdev Multiplier")
+wae_DEAD_ZONE     = nz(rma(tr(true),100)) * 3.7
+
+calc_macd(source, fastLength, slowLength) =>
+	fastMA = ema(source, fastLength)
+	slowMA = ema(source, slowLength)
+	fastMA - slowMA
+
+calc_BBUpper(source, length, mult) => 
+	basis = sma(source, length)
+	dev = mult * stdev(source, length)
+	basis + dev
+
+calc_BBLower(source, length, mult) => 
+	basis = sma(source, length)
+	dev = mult * stdev(source, length)
+	basis - dev
+
+wae_t1 = (calc_macd(close, wae_fastLength, wae_slowLength) - calc_macd(close[1], wae_fastLength, wae_slowLength)) * wae_sensitivity
+wae_t2 = (calc_macd(close[2], wae_fastLength, wae_slowLength) - calc_macd(close[3], wae_fastLength, wae_slowLength)) * wae_sensitivity
+
+wae_e1 = (calc_BBUpper(close, wae_channelLength, wae_mult) - calc_BBLower(close, wae_channelLength, wae_mult))
+
+trendUp = (wae_t1 >= 0) ? wae_t1 : 0
+trendDown = (wae_t1 < 0) ? ( -1 * wae_t1) : 0
+
+//remove comments to use as Volume - confirmation
+//Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? trendUp   > wae_DEAD_ZONE and trendUp   > wae_e1 : false
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? trendDown > wae_DEAD_ZONE and trendDown > wae_e1 : false
