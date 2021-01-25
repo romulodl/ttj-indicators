@@ -1,0 +1,14 @@
+// Detrended Price Oscillator
+//
+// Original script: Tradingview built-in script
+// Used as: C2
+
+dpo_period = input(21, title="Period", minval=1)
+dpo_barsback = dpo_period/2 + 1
+ma = sma(close, dpo_barsback)
+dpo = close - ma[dpo_barsback]
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? dpo > 0 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? dpo < 0 : true
