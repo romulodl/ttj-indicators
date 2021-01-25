@@ -42,5 +42,5 @@ ntdf = tdfi()
 
 //remove comments to use as Volume - confirmation
 //Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
-//Ind_3_L_Conf     = Ind_3_Check_Conf ? crossover(ntdf, filterHigh) : false
-//Ind_3_S_Conf     = Ind_3_Check_Conf ? crossunder(ntdf, filterLow) : false
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? crossover(ntdf, filterHigh) : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? crossunder(ntdf, filterLow) : true

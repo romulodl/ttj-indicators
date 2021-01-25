@@ -1,0 +1,13 @@
+// Kijun-sen
+//
+// Original script: https://www.tradingview.com/script/DDjTGayW-Kijun-Sen/
+// Used as: Baseline
+
+kijun_period = input(26, minval=1, title="Period")
+donchian(len) => avg(lowest(len), highest(len))
+baseline = donchian(kijun_period)
+
+//remove comments to use as your baseline - confirmation
+//Ind_4_Check_Conf = input(true, title = "Indicator 4 - BL - Confirmation")
+//Ind_4_L_Conf     = Ind_4_Check_Conf ? close > baseline : true
+//Ind_4_S_Conf     = Ind_4_Check_Conf ? close < baseline : true

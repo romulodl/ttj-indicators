@@ -35,5 +35,5 @@ trendDown = (wae_t1 < 0) ? ( -1 * wae_t1) : 0
 
 //remove comments to use as Volume - confirmation
 //Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
-//Ind_3_L_Conf     = Ind_3_Check_Conf ? trendUp   > wae_DEAD_ZONE and trendUp   > wae_e1 : false
-//Ind_3_S_Conf     = Ind_3_Check_Conf ? trendDown > wae_DEAD_ZONE and trendDown > wae_e1 : false
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? trendUp   > wae_DEAD_ZONE and trendUp   > wae_e1 : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? trendDown > wae_DEAD_ZONE and trendDown > wae_e1 : true
