@@ -1,0 +1,46 @@
+// Trend Direction Force Index (TDFI)
+//
+// Original script: https://uk.tradingview.com/script/HUpIful1-Trend-Direction-Force-Index-v2-TDFI-wm/
+// Used as: Volume
+
+lookback = input(13, title = "Lookback")
+mmaLength = input(13, title = "MMA Length")
+mmaMode = input(title = "MMA Mode", defval="ema", options=["ema", "wma", "swma", "vwma", "hull", "tema"])
+smmaLength = input(13)
+smmaMode = input(title = "SMMA Mode", defval="ema", options=["ema", "wma", "swma", "vwma", "hull", "tema"])
+nLength = input(3, title = "N Length")
+filterHigh = input(0.05, title = "Filter High")
+filterLow = input(-0.05, title = "Filter Low")
+price = input(close, "Period")
+
+tema(src, len) =>
+    ema1 = ema(src, len)
+    ema2 = ema(ema1, len)
+    ema3 = ema(ema2, len)
+    (3 * ema1) - (3 * ema2) + ema3
+
+ma(mode, src, len) =>
+     mode == "ema" ? ema(src, len) :
+     mode == "wma" ? wma(src, len) :
+     mode == "swma" ? swma(src) :
+     mode == "vwma" ? vwma(src, len) :
+     mode == "hull" ? wma((2 * wma(src, len / 2)) - wma(src, len), round(sqrt(len))) :
+     mode == "tema" ? tema(src, len) :
+     sma(src, len)
+
+tdfi() =>
+    mma = ma(mmaMode, price * 1000, mmaLength)
+    smma = ma(smmaMode, mma, smmaLength)
+    impetmma = mma - mma[1]
+    impetsmma = smma - smma[1]
+    divma = abs(mma - smma)
+    averimpet = (impetmma + impetsmma) / 2
+    tdf = pow(divma, 1) * pow(averimpet, nLength)
+    tdf / highest(abs(tdf), lookback * nLength)
+
+ntdf = tdfi()
+
+//remove comments to use as Volume - confirmation
+//Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? crossover(ntdf, filterHigh) : false
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? crossunder(ntdf, filterLow) : false

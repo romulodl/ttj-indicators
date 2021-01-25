@@ -1,0 +1,19 @@
+//Coppock curve
+//
+// Original script: Tradingview built-in script
+// Used as: C1 or C2
+
+coppock_curve_wma_length = input(title="WMA Length", type=input.integer, defval=10)
+coppock_curve_longRoCLength = input(title="Long RoC Length", type=input.integer, defval=14)
+coppock_curve_shortRoCLength = input(title="Short RoC Length", type=input.integer, defval=11)
+curve = wma(roc(close, coppock_curve_longRoCLength) + roc(close, coppock_curve_shortRoCLength), coppock_curve_wma_length)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(curve, 0) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(curve, 0) : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? curve > 0 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? curve < 0 : true

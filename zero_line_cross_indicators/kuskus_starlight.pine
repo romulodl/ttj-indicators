@@ -1,0 +1,32 @@
+// Kuskus Starlight
+//
+// Original script: https://www.tradingview.com/script/nZuBWW9j-Jurik-Moving-Average/
+// Used as: C1 or C2
+
+kuskus_range = input(30, title="Range Periods")
+pricesmoothing = input(0.3, title="Price Smoothing")
+indexsmoothing = input(0.3, title="Index Smoothing")
+highesthigh = highest( high, kuskus_range)
+lowestlow = lowest(low, kuskus_range)
+greatestrange = 0.0
+greatestrange := (highesthigh - lowestlow) != 0 ? (highesthigh - lowestlow) : greatestrange[1]
+midprice = (high + low) / 2
+pricelocation = 2 * ((midprice - lowestlow) / greatestrange) - 1
+extmapbuffer = 0.0
+extmapbuffer := pricesmoothing *nz(extmapbuffer[1]) + (1 - pricesmoothing) * pricelocation
+smoothedlocation = 0.0
+smoothedlocation := (extmapbuffer > 0.99 ? 0.99 : (extmapbuffer < -0.99 ? -0.99 : extmapbuffer)) != 1 ? (extmapbuffer >0.99 ? 0.99 : (extmapbuffer < -0.99 ? -0.99 : extmapbuffer)) : smoothedlocation[1]
+fishindex = log(( 1 + smoothedlocation) / (1 - smoothedlocation))
+extmapbuffer1 = 0.0
+extmapbuffer1 := indexsmoothing * nz(extmapbuffer1[1]) + ( 1 - indexsmoothing) * fishindex
+kuskus = extmapbuffer1
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(kuskus, 0) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(kuskus, 0) : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? kuskus > 0 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? kuskus < 0 : true

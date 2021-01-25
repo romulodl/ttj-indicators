@@ -1,0 +1,18 @@
+// Aroon
+//
+// Original script: Tradingview built-in script
+// Used as: C1 or C2
+
+aroon_length = input(14, minval = 1)
+upper = 100 * (highestbars(high, aroon_length + 1) + aroon_length) / aroon_length
+lower = 100 * (lowestbars(low, aroon_length + 1)   + aroon_length) / aroon_length
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(upper, lower) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossover(lower, upper) : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? upper > lower : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? upper < lower : true

@@ -1,0 +1,33 @@
+// Absolute Strength Index Oscillator
+//
+// Original script: https://uk.tradingview.com/script/E6xccTf1-Absolute-Strength-Index-Oscillator-LazyBear/
+// Used as: C1 or C2
+
+ash_ema_length    = input(21, title="EMA Length")
+ash_signal_length = input(34, title="Signal Length")
+osl = 10
+A   = float(0.0)
+M   = 0.0
+D   = 0.0
+mt  = 0.0
+ut  = 0.0
+A  := close > close[1]  ? nz(A[1]) + (close/close[1]) - 1 : nz(A[1])
+M  := close == close[1] ? nz(M[1]) + 1.0/osl : nz(M[1])
+D  := close < close[1]  ? nz(D[1]) + (close[1]/close) - 1 : nz(D[1])
+abssi = D + M / 2 == 0 ? 1 :  1 - 1 / (1 + (A + M / 2) / (D + M / 2))
+abssio = (abssi - ema(abssi, ash_ema_length))
+alp = 2.0 / (ash_signal_length + 1)
+mt := alp * abssio + (1 - alp ) * nz(mt[1])
+ut := alp*mt+(1-alp)*nz(ut[1])
+s   = ((2 - alp) * mt - ut) / (1 - alp)
+ash_oscillator_histogram = abssio - s
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(ash_oscillator_histogram, 0) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(ash_oscillator_histogram, 0) : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? ash_oscillator_histogram > 0 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? ash_oscillator_histogram < 0 : true

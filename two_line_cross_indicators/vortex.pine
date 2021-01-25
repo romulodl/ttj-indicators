@@ -1,0 +1,16 @@
+// Vortex Indicator
+//
+// Original script: Tradingview built-in plugin
+// Used as: C1
+
+vortex_length = input(14, title="C1 period", minval=2)
+VMP = sum( abs( high - low[1]), vortex_length )
+VMM = sum( abs( low - high[1]), vortex_length )
+STR = sum( atr(1), vortex_length )
+VIP = VMP / STR
+VIM = VMM / STR
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(VIM, VIP) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossover(VIP, VIM) : false

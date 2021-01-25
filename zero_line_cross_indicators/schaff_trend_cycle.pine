@@ -1,0 +1,45 @@
+// Schaff Trend Cycle
+//
+// Original script: https://uk.tradingview.com/script/WhRRThMI-STC-Indicator-A-Better-MACD-SHK/
+// Used as: C1 or C2
+// 
+// used it as a zero line cross (crossing at 50)
+
+stc_length=input(10)
+stc_fastLength=input(23)
+stc_slowLength=input(50)
+
+macd(source, fastLength, slowLength) =>
+    fastMA = ema(source, fastLength)
+    slowMA = ema(source, slowLength)
+    macd = fastMA - slowMA
+    macd
+
+stc(length, fastLength, slowLength) =>
+    factor=input(0.5)
+    m = macd(close,fastLength,slowLength)
+    v1 = lowest(m, length)
+    v2 = highest(m, length) - v1
+    f1  = 0.0
+    pf  = 0.0
+    f2  = 0.0
+    pff = 0.0
+    f1 := (v2 > 0 ? ((m - v1) / v2) * 100 : nz(f1[1]))
+    pf := (na(pf[1]) ? f1 : pf[1] + (factor * (f1 - pf[1])))
+    v3  = lowest(pf, length)
+    v4  = highest(pf, length) - v3
+    f2 := (v4 > 0 ? ((pf - v3) / v4) * 100 : nz(f2[1]))
+    pff := (na(pff[1]) ? f2 : pff[1] + (factor * (f2 - pff[1])))
+    pff
+
+stc_value = stc(stc_length, stc_fastLength, stc_slowLength)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(stc_value, 50) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(stc_value, 50) : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? stc_value > 50 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? stc_value < 50 : true

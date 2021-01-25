@@ -1,0 +1,13 @@
+// SSL
+//
+// Original script: https://uk.tradingview.com/script/xzIoaIJC-SSL-channel/
+// Used as: C1
+
+ssl_period   = input(title="Period", defval=10)
+ssl_sma_high = sma(high, ssl_period)
+ssl_sma_low  = sma(low, ssl_period)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(close, ssl_sma_high) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(close, ssl_sma_low) : false
