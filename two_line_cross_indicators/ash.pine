@@ -1,0 +1,63 @@
+// Absolute Strength Histogram
+//
+// Original script: https://www.tradingview.com/script/PORR7A3k-Absolute-Strength-Histogram-v2-jh/
+// Used as: C1
+
+ash_length      = input(9,title="Period of Evaluation", type=input.integer)
+ash_smooth      = input(3,title="Period of Smoothing", type=input.integer)
+ash_src         = input(close,title="Source")
+ash_mode        = input(title="Indicator Method", type=input.string, defval="RSI", options=["RSI", "STOCHASTIC","ADX"])
+ash_ma_type     = input(title="MA", type=input.string, defval="WMA", options=["ALMA", "EMA", "WMA", "SMA", "SMMA", "HMA"])
+ash_alma_offset = input(defval=0.85, title="* Arnaud Legoux (ALMA) Only - Offset Value", minval=0, step=0.01)
+ash_alma_sigma  = input(defval=6, title="* Arnaud Legoux (ALMA) Only - Sigma Value", minval=0)
+
+ma(type, src, len) =>
+    float result = 0
+    if type=="SMA" // Simple
+        result := sma(src, len)
+    if type=="EMA" // Exponential
+        result := ema(src, len)
+    if type=="WMA" // Weighted
+        result := wma(src, len)
+    if type=="SMMA" // Smoothed
+        w = wma(src, len)
+        result := na(w[1]) ? sma(src, len) : (w[1] * (len - 1) + src) / len
+    if type=="HMA" // Hull
+        result := wma(2 * wma(src, len / 2) - wma(src, len), round(sqrt(len)))
+    if type=="ALMA" // Arnaud Legoux
+        result := alma(src, len, ash_alma_offset, ash_alma_sigma)
+    result
+
+//----
+Price = ash_src
+
+//----
+Price1 = ma("SMA",Price,1)
+Price2 = ma("SMA",Price[1],1)
+
+//RSI
+Bulls0 = 0.5*(abs(Price1-Price2)+(Price1-Price2))
+Bears0 = 0.5*(abs(Price1-Price2)-(Price1-Price2))
+
+//STOCHASTIC
+Bulls1 = Price1 - lowest(Price1, ash_length)
+Bears1 = highest(Price1, ash_length) - Price1
+
+//ADX
+Bulls2 = 0.5*(abs(high-high[1])+(high-high[1]))
+Bears2 = 0.5*(abs(low[1]-low)+(low[1]-low))
+
+//
+Bulls = ash_mode == "RSI" ? Bulls0 : Mode == "STOCHASTIC" ? Bulls1 : Bulls2
+Bears = ash_mode == "RSI" ? Bears0 : Mode == "STOCHASTIC" ? Bears1 : Bears2
+AvgBulls = ma(ash_ma_type, Bulls, ash_length)     
+AvgBears = ma(ash_ma_type, Bears, ash_length)
+
+//----
+SmthBulls = ma(ash_ma_type, AvgBulls, ash_smooth)  
+SmthBears = ma(ash_ma_type, AvgBears, ash_smooth)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(SmthBulls, SmthBears) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossover(SmthBears, SmthBulls) : false
