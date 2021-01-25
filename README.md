@@ -1,6 +1,6 @@
 # The Trading Journal indicators
 
-Code repository Afor the indicators used by me and others shared in the discord channel. This repo was only possible due to the amazing work that [Dillon Grech is doing on his youtube channel](https://www.youtube.com/channel/UCl1a4qyx_HaodV0AN9ve46A) using the [No Nonsense Forex way](https://nononsenseforex.com/) of trading.
+Code repository for the indicators used by me and others shared in the discord channel. This repo was only possible due to the amazing work that [Dillon Grech is doing on his youtube channel](https://www.youtube.com/channel/UCl1a4qyx_HaodV0AN9ve46A) using the [No Nonsense Forex way](https://nononsenseforex.com/) of trading.
 
 ## Usage
 
