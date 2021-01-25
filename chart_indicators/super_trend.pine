@@ -1,0 +1,30 @@
+// Super Trend
+//
+// Original script: https://www.tradingview.com/script/r6dAP7yi/
+// Used as: C1 or C2
+
+supertrend_periods    = input(title="ATR Period", type=input.integer, defval=10)
+supertrend_src        = input(hl2, title="Source")
+supertrend_multiplier = input(title="ATR Multiplier", type=input.float, step=0.1, defval=3.0)
+supertrend_changeATR  = input(title="Change ATR Calculation Method ?", type=input.bool, defval=true)
+atr2           = sma(tr, supertrend_periods)
+supertrend_atr = supertrend_changeATR ? atr(supertrend_periods) : atr2
+up  = supertrend_src - (supertrend_multiplier * supertrend_atr)
+up1 = nz(up[1],up)
+up := close[1] > up1 ? max(up, up1) : up
+dn  = supertrend_src + (supertrend_multiplier * supertrend_atr)
+dn1 = nz(dn[1], dn)
+dn := close[1] < dn1 ? min(dn, dn1) : dn
+trend = 1
+trend := nz(trend[1], trend)
+trend := trend == -1 and close > dn1 ? 1 : trend == 1 and close < up1 ? -1 : trend
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? trend == 1 and trend[1] == -1 : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? trend == -1 and trend[1] == 1 : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? trend > 0 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? trend < 0 : true
