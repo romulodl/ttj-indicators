@@ -1,0 +1,16 @@
+// Relative Vigor Index
+//
+// Original script: Tradingview built-in indicator
+// Used as: C1 or Exit
+//
+// Many thanks to @BendyMan from the Discord channel
+
+RVGIlen = input(10, title="Length", minval=1)
+RVGIrvi = sum(swma(close-open), RVGIlen)/sum(swma(high-low),RVGIlen)
+RVGIsig = swma(RVGIrvi)
+RVGIoffset = input(0, "Offset", type = input.integer, minval = -500, maxval = 500)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(RVGIrvi, RVGIsig) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(RVGIrvi, RVGIsig) : false

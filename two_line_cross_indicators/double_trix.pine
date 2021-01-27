@@ -1,0 +1,16 @@
+// Double Trix
+//
+// Original script: https://www.tradingview.com/script/ERlRQE3i-Double-TRIX-Crossover/
+// Used as: C1
+//
+// Many thanks to @BendyMan from the Discord channel
+
+DTRIXt1 = input(6, minval=1)
+DTRIXt2 = input(8, minval=1)
+DTRIXout1 = 10000 * change(ema(ema(ema(log(close), DTRIXt1), DTRIXt1), DTRIXt1))
+DTRIXout2 = 10000 * change(ema(ema(ema(log(close), DTRIXt2), DTRIXt2), DTRIXt2))
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(DTRIXout1, DTRIXout2) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(DTRIXout1, DTRIXout2) : false
