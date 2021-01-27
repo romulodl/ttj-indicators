@@ -1,0 +1,40 @@
+// Squeeze Momentum Indicator
+//
+// Original script: https://www.tradingview.com/script/nqQ1DT5a-Squeeze-Momentum-Indicator-LazyBear/
+// Used as: C1 or Volume
+
+bb_squeeze_length       = input(20, title="BB Length")
+bb_squeeze_mult         = input(2.0,title="BB MultFactor")
+bb_squeeze_lengthKC     = input(20, title="KC Length")
+bb_squeeze_multKC       = input(1.5, title="KC MultFactor")
+bb_squeeze_useTrueRange = input(true, title="Use TrueRange (KC)", type=input.bool)
+
+// Calculate BB
+source = close
+basis = sma(source, bb_squeeze_length)
+dev = bb_squeeze_mult * stdev(source, bb_squeeze_length)
+upperBB = basis + dev
+lowerBB = basis - dev
+
+// Calculate KC
+ma = sma(source, bb_squeeze_lengthKC)
+range = bb_squeeze_useTrueRange ? tr : (high - low)
+rangema = sma(range, bb_squeeze_lengthKC)
+upperKC = ma + rangema * bb_squeeze_multKC
+lowerKC = ma - rangema * bb_squeeze_multKC
+
+sqzOn  = (lowerBB > lowerKC) and (upperBB < upperKC)
+sqzOff = (lowerBB < lowerKC) and (upperBB > upperKC)
+noSqz  = (sqzOn == false) and (sqzOff == false)
+
+bb_squeeze_val = linreg(source  -  avg(avg(highest(high, bb_squeeze_lengthKC), lowest(low, bb_squeeze_lengthKC)),sma(close,bb_squeeze_lengthKC)), bb_squeeze_lengthKC,0)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(bb_squeeze_val, 0) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(bb_squeeze_val, 0) : false
+
+//remove comments to use as Volume - confirmation
+//Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? sqzOff : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? sqzOff : true
