@@ -1,0 +1,20 @@
+// Anchored Momentum
+//
+// Original script: https://uk.tradingview.com/script/TBTFDWDq-Anchored-Momentum-LazyBear/ 
+// Used as: C1
+//
+// Many thanks to @BendyMan from the Discord channel
+
+AMOM_LB_src=close
+AMOM_LB_l=input(8, title="Momentum Period")
+AMOM_LB_sl=input(10, title="Signal Period")
+AMOM_LB_sm=input(true, title="Smooth Momentum")
+AMOM_LB_smp=input(5, title="Smoothing Period")
+AMOM_LB_p=2*AMOM_LB_l+1
+AMOM_LB_amom=100*(((AMOM_LB_sm?sma(AMOM_LB_src,AMOM_LB_smp):AMOM_LB_src)/(sma(AMOM_LB_src,AMOM_LB_p)) - 1))
+AMOM_LB_amoms=sma(AMOM_LB_amom, AMOM_LB_sl)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(AMOM_LB_amom, AMOM_LB_amoms)  : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(AMOM_LB_amom, AMOM_LB_amoms) : false

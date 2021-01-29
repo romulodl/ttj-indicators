@@ -1,0 +1,30 @@
+// Qualitative Quantitative Estimation
+//
+// Original script: :shrugs:
+// Used as: C1
+//
+// Many thanks to @BendyMan from the Discord channel
+
+RSIPeriod = 8
+SF = 1
+WP = input (3.0, step = 0.05)
+WildersPeriod = RSIPeriod * 2 - 1
+rsi = rsi(close, RSIPeriod) // The basic RSI code
+RsiMa = ema(rsi, SF)
+AtrRsi = abs(RsiMa[1] - RsiMa) // The absolute difference between the smoothed RSI's, bar by bar
+MaAtrRsi = ema(AtrRsi, WildersPeriod) // The smoothed AtrRsi using an EMA
+dar = ema(MaAtrRsi, WildersPeriod) * WP, // A smoothed, smoothed AtrRsi then multiplied by the WP
+newShortBand = RsiMa + dar
+rsi0 = 0.0
+rsi0 := RsiMa[1] < rsi0[1] and RsiMa < rsi0[1] ? min (rsi0[1], newShortBand) : newShortBand
+newLongBand = RsiMa - dar
+rsi1 = 0.0
+rsi1 := RsiMa[1] > rsi1[1] and RsiMa > rsi1[1] ? max (rsi1[1], newLongBand) : newLongBand
+trend = 0.0
+trend := cross(RsiMa, rsi0[1]) ? 1 : cross(RsiMa, rsi1[1]) ? -1 : nz (trend[1], 1)
+secondRSILine = trend == 1 ? rsi1 : rsi0
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(rsi, secondRSILine)  : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(rsi, secondRSILine) : false

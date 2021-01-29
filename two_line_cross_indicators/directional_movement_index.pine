@@ -1,0 +1,23 @@
+// Directional Movement Index
+//
+// Original script: Tradingview built-in indicator
+// Used as: C1
+//
+// Many thanks to @BendyMan from the Discord channel
+
+dmi_lensig = input(14, title="ADX Smoothing", minval=1, maxval=50)
+dmi_len = input(14, minval=1, title="DI Length")
+up = change(high)
+down = -change(low)
+plusDM = na(up) ? na : (up > down and up > 0 ? up : 0)
+minusDM = na(down) ? na : (down > up and down > 0 ? down : 0)
+trur = rma(tr, dmi_len)
+plus = fixnan(100 * rma(plusDM, dmi_len) / trur)
+minus = fixnan(100 * rma(minusDM, dmi_len) / trur)
+sum = plus + minus
+adx = 100 * rma(abs(plus - minus) / (sum == 0 ? 1 : sum), dmi_lensig)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(plus, minus)  : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(plus, minus) : false

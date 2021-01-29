@@ -1,0 +1,18 @@
+// Price Momentum Oscillator
+//
+// Original script: https://uk.tradingview.com/script/bPlpfFxF-Price-Momentum-Oscillator/
+// Used as: C1
+//
+// Many thanks to @BendyMan from the Discord channel
+
+PMOfirstLength = input(title="1st Smoothing Length", type=input.integer, defval=35)
+PMOsecondLength = input(title="2nd Smoothing Length", type=input.integer, defval=20)
+PMOsignalLength = input(title="Signal Length", type=input.integer, defval=10)
+PMOsrc = input(title="Source", type=input.source, defval=close)
+PMOpmo = ema(10 * ema(nz(roc(PMOsrc, 1)), PMOfirstLength), PMOsecondLength)
+PMOsignal = ema(PMOpmo, PMOsignalLength)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(PMOpmo, PMOsignal)  : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(PMOpmo, PMOsignal) : false
