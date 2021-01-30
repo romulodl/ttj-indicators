@@ -1,0 +1,27 @@
+// Wave Trend Oscillator
+//
+// Original script: https://www.tradingview.com/script/2KE8wTuF-Indicator-WaveTrend-Oscillator-WT/
+// Used as: C1 or C2
+
+wt_n1 = input(10, "Channel Length")
+wt_n2 = input(21, "Average Length")
+wt_s  = input(4, "Signal Length")
+ 
+wt_ap = hlc3 
+wt_esa = ema(wt_ap, wt_n1)
+wt_d = ema(abs(wt_ap - wt_esa), wt_n1)
+wt_ci = (wt_ap - wt_esa) / (0.015 * wt_d)
+wt_tci = ema(wt_ci, wt_n2)
+ 
+wt1 = wt_tci
+wt2 = sma(wt1, wt_s)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(wt1, 0) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(wt1, 0) : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 1 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? crossover(wt1, 0) : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? crossunder(wt1, 0) : true
