@@ -1,0 +1,19 @@
+// Bulls vs Bears Power (ARENA)
+// Original script: https://www.tradingview.com/script/fadiBynQ-Bull-vs-Bear-Power-by-DGT/
+// Used as: C1
+//
+// © dgtrd
+// 1/28/2021 converted to TTJ-Zero Cross format -BendyMan
+//
+// Many thanks to @BendyMan from the Discord channel
+
+ARENAlength    = input(13   , "Exponential Moving Average Length", minval=1) // Alexander Elder, developer of Elder-Ray Inticator, uses the 13-period EMA in order to present the average consensus of price value
+ARENAsmooth    = input(1    , "Smoothing Length", minval=1)
+bull = ema(high - ema(close, ARENAlength), ARENAsmooth)
+bear = ema(low  - ema(close, ARENAlength), ARENAsmooth)
+bbp  = ema(bull + bear, ARENAsmooth)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(bbp, 0) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(bbp, 0) : false

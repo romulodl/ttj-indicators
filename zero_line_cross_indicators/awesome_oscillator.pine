@@ -1,0 +1,11 @@
+// Awesome Oscillator
+// Original script: Tradingview built-in indicator
+// Used as: C2
+//
+
+awesome_val = sma(hl2,5) - sma(hl2,34)
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? awesome_val > 0 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? awesome_val < 0 : true

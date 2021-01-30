@@ -1,0 +1,19 @@
+// Willians %R
+//
+// Original script: Tradingview built-in script
+// Used as: C2
+
+wr_length = input(title="Length", type=input.integer, defval=14)
+wr_src    = input(close, "Source", type = input.source)
+
+_pr(length) =>
+	max = highest(length)
+	min = lowest(length)
+	100 * (wr_src - max) / (max - min)
+
+percentR = _pr(wr_length)
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? percentR > -50 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? percentR < -50 : true
