@@ -49,7 +49,7 @@ Bears2 = 0.5*(abs(low[1]-low)+(low[1]-low))
 
 //
 Bulls = ash_mode == "RSI" ? Bulls0 : ash_mode == "STOCHASTIC" ? Bulls1 : Bulls2
-Bears = ash_mode == "RSI" ? Bears0 : Mode == "STOCHASTIC" ? Bears1 : Bears2
+Bears = ash_mode == "RSI" ? Bears0 : ash_mode == "STOCHASTIC" ? Bears1 : Bears2
 AvgBulls = ma(ash_ma_type, Bulls, ash_length)
 AvgBears = ma(ash_ma_type, Bears, ash_length)
 

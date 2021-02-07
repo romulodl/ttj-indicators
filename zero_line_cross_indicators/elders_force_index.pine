@@ -1,0 +1,18 @@
+// Elder Force Index
+//
+// Original script: Tradingview built-in script
+// Used as: C1 or C2
+// Many thanks to @BendyMan from the Discord channel
+
+EFIlength = input(13, minval=1)
+efi = ema(change(close) * volume, EFIlength)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(efi, 0) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(efi, 0) : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? efi > 0 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? efi < 0 : true
