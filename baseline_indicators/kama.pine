@@ -1,0 +1,29 @@
+// Kaufman Adaptative Moving Average
+//
+// Original script: https://www.tradingview.com/script/WMySm5L4-Kaufman-Adaptive-Moving-Average/
+// Used as: Baseline
+
+kama_length = input(title="Length", type=input.integer, defval=14)
+kama_fastLength = input(title="Fast EMA Length", type=input.integer, defval=2)
+kama_slowLength = input(title="Slow EMA Length", type=input.integer, defval=30)
+kama_src = input(title="Source", type=input.source, defval=close)
+
+mom = abs(change(kama_src, kama_length))
+volatility = sum(abs(change(kama_src)), kama_length)
+
+// Efficiency Ratio
+kama_er = volatility != 0 ? mom / volatility : 0
+
+fastAlpha = 2 / (kama_fastLength + 1)
+slowAlpha = 2 / (kama_slowLength + 1)
+
+// KAMA Alpha
+sc = pow((kama_er * (fastAlpha - slowAlpha)) + slowAlpha, 2)
+
+baseline = 0.0
+baseline := sc * kama_src + (1 - sc) * nz(baseline[1])
+
+//remove comments to use as your baseline - confirmation
+//Ind_4_Check_Conf = input(true, title = "Indicator 4 - BL - Confirmation")
+//Ind_4_L_Conf     = Ind_4_Check_Conf ? close > baseline : true
+//Ind_4_S_Conf     = Ind_4_Check_Conf ? close < baseline : true
