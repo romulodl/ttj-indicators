@@ -1,0 +1,15 @@
+// Triple EMA
+//
+// Original script: Tradingview built-in indicator
+// Used as: Baseline
+
+tema_length = input(9, minval=1)
+tema_ema1 = ema(close, tema_length)
+tema_ema2 = ema(tema_ema1, tema_length)
+tema_ema3 = ema(tema_ema2, tema_length)
+baseline = 3 * (tema_ema1 - tema_ema2) + tema_ema3
+
+//remove comments to use as your baseline - confirmation
+//Ind_4_Check_Conf = input(true, title = "Indicator 4 - BL - Confirmation")
+//Ind_4_L_Conf     = Ind_4_Check_Conf ? close > baseline : true
+//Ind_4_S_Conf     = Ind_4_Check_Conf ? close < baseline : true

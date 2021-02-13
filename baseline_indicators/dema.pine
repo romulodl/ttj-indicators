@@ -1,0 +1,16 @@
+// Double EMA
+//
+// Original script: Tradingview built-in indicator
+// Used as: Baseline
+
+dema_length = input(9, minval=1)
+dema_src    = input(close, title="Source")
+
+dema_e1 = ema(dema_src, dema_length)
+dema_e2 = ema(dema_e1, dema_length)
+baseline = 2 * dema_e1 - dema_e2
+
+//remove comments to use as your baseline - confirmation
+//Ind_4_Check_Conf = input(true, title = "Indicator 4 - BL - Confirmation")
+//Ind_4_L_Conf     = Ind_4_Check_Conf ? close > baseline : true
+//Ind_4_S_Conf     = Ind_4_Check_Conf ? close < baseline : true
