@@ -1,0 +1,30 @@
+// Damiani Volatmeter
+//
+// Original script: https://uk.tradingview.com/script/rYWBBk3a-RS-Damiani-Volatmeter-V0/
+// Used as: Volume
+//
+// Many thanks to @gazorpazorpius from the Discord channel
+
+DVvis_atr = input(13)
+DVvis_std = input(20)
+DVsed_atr = input(40)
+DVsed_std = input(100)
+DVthreshold_level = input(1.4)
+
+DVlag_supressor = input(true)
+DVlag_s_K = 0.5
+
+DVvol = 0.0
+
+s1=nz(DVvol[1],0)
+s3=nz(DVvol[3],0)
+
+DVvol := DVlag_supressor ? atr(DVvis_atr) / atr(DVsed_atr) + DVlag_s_K*(s1-s3) : atr(DVvis_atr) / atr(DVsed_atr)
+DVanti_thres = stdev(close, DVvis_std) / stdev(close, DVsed_std)
+DVt = DVthreshold_level - DVanti_thres
+DVvol_m = DVvol > DVt ? -1 : 0.03
+
+//remove comments to use as Volume - confirmation
+//Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? DVvol_m > 0 : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? DVvol_m > 0 : true
