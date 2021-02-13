@@ -1,0 +1,32 @@
+// FX Sniper Ergodic CCI
+// Original script: Translation from MT5 indicator, used formula here -> https://www.mql5.com/en/code/22994
+// Used as: C1 or C2
+//
+// Many thanks to @RobG from discord to suggest this indicator
+
+period_q      = input(title="Q smoothing period", defval=2)
+period_r      = input(title="R smoothing period", defval=10)
+period_s      = input(title="S smoothing period", defval=5)
+signal_period = input(title="Signal Period", defval=3)
+
+ecci_mom     = close - close[1]
+ecci_abs_mom = abs(ecci_mom)
+ecci_var1    = ema(ecci_mom, period_q)
+ecci_var2    = ema(ecci_var1, period_r)
+ecci_var2a   = ema(ecci_abs_mom, period_q)
+ecci_var2b   = ema(ecci_var2a, period_r)
+ecci_var2c   = ema(ecci_var2, period_s)
+ecci_var3    = ema(ecci_var2b, period_s)
+
+ergodic_cci = (500 * ecci_var2c) / ecci_var3
+signal_line = ema(ergodic_cci, signal_period)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(ergodic_cci, signal_line)  : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(ergodic_cci, signal_line) : false
+
+//remove comments to use as C2 confirmation - USED AS ZERO LINE CROSS HERE
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? ergodic_cci > 0 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? ergodic_cci < 0 : true
