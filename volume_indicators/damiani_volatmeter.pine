@@ -26,5 +26,5 @@ DVvol_m = DVvol > DVt ? -1 : 0.03
 
 //remove comments to use as Volume - confirmation
 //Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
-//Ind_3_L_Conf     = Ind_3_Check_Conf ? DVvol_m > 0 : true
-//Ind_3_S_Conf     = Ind_3_Check_Conf ? DVvol_m > 0 : true
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? DVvol_m < 0 : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? DVvol_m < 0 : true
