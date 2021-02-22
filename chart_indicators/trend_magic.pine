@@ -1,0 +1,26 @@
+// Trend Magic
+//
+// Original script: https://www.tradingview.com/script/kRIjThLZ-Trend-Magic/
+// Used as: C1 or C2
+
+tm_period = input(20,"CCI period")
+tm_coeff = input(1,"ATR Multiplier")
+tm_AP = input(5,"ATR Period")
+tm_ATR = sma(tr,AP)
+tm_src = input(close)
+upT = low - tr_ATR * tm_coeff
+downT = high + tr_ATR * tr_coeff
+MagicTrend = 0.0
+MagicTrend := cci(tr_src, tm_period) >= 0 ? (upT < nz(MagicTrend[1]) ? nz(MagicTrend[1]) : upT) : (downT > nz(MagicTrend[1]) ? nz(MagicTrend[1]) : downT)
+color1 = cci(tm_src,tm_period) >= 0 ? #0022FC : #FC0400
+plot(MagicTrend, color=color1, linewidth=3)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(close, MagicTrend) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(close, MagicTrend) : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? close > MagicTrend : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? close < MagicTrend : true
