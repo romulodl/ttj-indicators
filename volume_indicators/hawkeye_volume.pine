@@ -1,0 +1,42 @@
+// Hawkeye Volume
+//
+// Original script: https://www.tradingview.com/script/ew4sIvHp-HawkEye-Volume-aamonkey/
+// Used as: Volume
+
+hv_length = input(200)
+range = high - low
+rangeAvg = sma(range,hv_length)
+HV_ma = input(20)
+
+durchschnitt = sma(volume, HV_ma)
+
+volumeA=sma(volume, hv_length)
+divisor=input(3.6)
+
+//Berechnungen
+high1=high[1]
+low1=low[1]
+mid1=hl2[1]
+
+u1 = mid1 + (high1-low1)/divisor
+d1 = mid1 - (high1-low1)/divisor
+
+r_enabled1 = (range > rangeAvg) and (close < d1) and volume > volumeA
+r_enabled2 = close < mid1
+r_enabled = r_enabled1 or r_enabled2
+
+g_enabled1 = close > mid1
+g_enabled2 = (range > rangeAvg) and (close > u1) and (volume > volumeA)
+g_enabled3 = (high > high1) and (range < rangeAvg/1.5) and (volume < volumeA)
+g_enabled4 = (low < low1) and (range < rangeAvg/1.5) and (volume > volumeA)
+g_enabled = g_enabled1 or g_enabled2 or g_enabled3 or g_enabled4
+
+gr_enabled1 = (range > rangeAvg) and (close > d1) and (close < u1) and (volume > volumeA) and (volume < volumeA*1.5) and (volume > volume[1])
+gr_enabled2 = (range < rangeAvg/1.5) and (volume < volumeA/1.5)
+gr_enabled3 = (close > d1) and (close < u1)
+gr_enabled = gr_enabled1 or gr_enabled2 or gr_enabled3
+
+//remove comments to use as Volume - confirmation
+//Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? not gr_enabled and g_enabled : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? not gr_enabled and g_enabled : true
