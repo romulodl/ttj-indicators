@@ -1,0 +1,18 @@
+// Percentage Volume Oscillator
+//
+// Original script: https://www.tradingview.com/script/43skZBsq-Percentage-Volume-Oscillator-PVO/ 
+// Used as: Volume
+
+LengthShortEMA = input(12, minval=1)
+LengthLongEMA = input(26, minval=1)
+LengthSignalEMA = input(9, minval=1)
+xShortEMA = ema(volume , LengthShortEMA)
+xLongEMA = ema(volume , LengthLongEMA)
+xPVO = ((xShortEMA - xLongEMA) / xLongEMA) * 100
+xSignalEMA = ema(xPVO , LengthSignalEMA)
+xPVOHisto = xPVO - xSignalEMA
+
+//remove comments to use as Volume - confirmation
+//Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? xPVOHisto > 0 : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? xPVOHisto < 0 : true

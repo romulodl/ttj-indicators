@@ -1,0 +1,23 @@
+// RVI Trend Confirmation
+//
+// Original script: https://www.tradingview.com/script/GQuqMAfR-RVI-trend-confirmation/ (MY OWN INDICATOR!!!!1 lol)
+// Used as: Volume
+
+rvi(period, price) =>
+    len = 14
+    stddev = stdev(price, period)
+    upper = ema(change(price) <= 0 ? 0 : stddev, len)
+    lower = ema(change(price) > 0 ? 0 : stddev, len)
+    upper / (upper + lower) * 100
+
+period = input(10, minval=1)
+price = close
+
+current_rvi = rvi(period, price)
+is_high = current_rvi > highest(nz(current_rvi[1]), period)
+is_low  = current_rvi < lowest(nz(current_rvi[1]), period)
+
+//remove comments to use as Volume - confirmation
+//Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? is_high : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? is_low  : true

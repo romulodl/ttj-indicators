@@ -6,14 +6,13 @@
 tm_period = input(20,"CCI period")
 tm_coeff = input(1,"ATR Multiplier")
 tm_AP = input(5,"ATR Period")
-tm_ATR = sma(tr,AP)
+tm_ATR = sma(tr, tr_AP)
 tm_src = input(close)
-upT = low - tr_ATR * tm_coeff
-downT = high + tr_ATR * tr_coeff
+upT = low - tm_ATR * tm_coeff
+downT = high + tm_ATR * tm_coeff
 MagicTrend = 0.0
-MagicTrend := cci(tr_src, tm_period) >= 0 ? (upT < nz(MagicTrend[1]) ? nz(MagicTrend[1]) : upT) : (downT > nz(MagicTrend[1]) ? nz(MagicTrend[1]) : downT)
+MagicTrend := cci(tm_src, tm_period) >= 0 ? (upT < nz(MagicTrend[1]) ? nz(MagicTrend[1]) : upT) : (downT > nz(MagicTrend[1]) ? nz(MagicTrend[1]) : downT)
 color1 = cci(tm_src,tm_period) >= 0 ? #0022FC : #FC0400
-plot(MagicTrend, color=color1, linewidth=3)
 
 //remove comments to use as C1 triggers
 //Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
