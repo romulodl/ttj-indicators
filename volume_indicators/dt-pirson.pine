@@ -1,0 +1,32 @@
+// DT-pirson indicator
+//
+// Original script: https://www.forexmt4indicators.com/dt-pirson-indicator-for-metatrader-5/ (MT5)
+// Used as: Volume
+//
+// Many thanks to @RobG from the Discord channel
+
+pirson_length = input(20)
+
+pirson_x = sma(close,    pirson_length)
+pirson_y = sma(close[1], pirson_length)
+
+pirson_sx = stdev(close,    pirson_length)
+pirson_sy = stdev(close[1], pirson_length)
+
+pirson_sum = 0.0
+for i = pirson_length - 1 to 0
+    pirson_sum := pirson_sum + (close[i] - pirson_x) * (close[i + 1] - pirson_y)    
+
+pirson = pirson_sum / ((pirson_length - 1) * pirson_sx * pirson_sy)
+
+// pirson_signal = ema(pirson, 9)
+
+//remove comments to use as Volume - confirmation
+//Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? pirson > 0.5 : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? pirson > 0.5  : true
+
+// There were some discussion in discord about this indicator,
+// some people are testing with a MA in this indicator
+// I left an EMA code commented for this one if you try to use it
+// with an MA
