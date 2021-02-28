@@ -1,0 +1,42 @@
+// Ehlers Universal Oscillator
+//
+// Original script: https://www.tradingview.com/script/ieFYbVdC-Ehlers-Universal-Oscillator-LazyBear/
+// Used as: C1 or C2
+// Many thanks to @gazorpazorpius from the Discord channel
+
+bandedge= input(20, title="BandEdge")
+lengthMA=input(9, title="EMA signal length")
+
+whitenoise = (close - close[2]) / 2
+a1= exp(-1.414 * 3.14159 / bandedge)
+b1= 2.0*a1 * cos(1.414*180 /bandedge)
+c2= b1
+c3= -a1 * a1
+c1= 1 - c2 - c3
+filt = 0.0
+filt := c1 * (whitenoise + nz(whitenoise[1])) / 2 + c2 * nz(filt[1]) + c3 * nz(filt[2])
+filt1 = 0.0
+filt1 := cum(1) == 0 ? 0 : cum(1) == 2 ? c2 * nz(filt1[1]) : cum(1) == 3 ? c2 * nz(filt1[1]) + c3 * nz(filt1[2]) : filt
+
+pk = 0.0
+pk := cum(1) == 2 ? .0000001 : abs(filt1) > nz(pk[1]) ? abs(filt1) : 0.991 * nz(pk[1])
+denom = pk == 0 ? -1 : pk
+
+euo = 0.0
+euo := denom == -1 ? nz(euo[1]) : filt1 / pk
+euoMA = ema(euo, lengthMA)
+
+//remove comments to use as C1 triggers - AS A ZERO CROSS!
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(euo, 0) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(euo, 0) : false
+
+//remove comments to use as C1 triggers - AS A SIGNAL LINE CROSS
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(euo, euoMA) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(euo, euoMA) : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? euo > 0 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? euo < 0 : true
