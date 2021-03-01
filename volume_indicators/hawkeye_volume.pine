@@ -39,4 +39,9 @@ gr_enabled = gr_enabled1 or gr_enabled2 or gr_enabled3
 //remove comments to use as Volume - confirmation
 //Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
 //Ind_3_L_Conf     = Ind_3_Check_Conf ? not gr_enabled and g_enabled : true
-//Ind_3_S_Conf     = Ind_3_Check_Conf ? not gr_enabled and g_enabled : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? not gr_enabled and r_enabled : true
+
+//remove comments to use as Volume - confirmation - USING MOVING AVERAGE
+//Ind_3_Check_Conf = input(true, title = "Indicator 3 - Vol - Confirmation")
+//Ind_3_L_Conf     = Ind_3_Check_Conf ? not gr_enabled and g_enabled and volume > durchschnitt : true
+//Ind_3_S_Conf     = Ind_3_Check_Conf ? not gr_enabled and r_enabled and volume > durchschnitt : true
