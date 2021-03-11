@@ -7,7 +7,7 @@
 
 RSIPeriod = 8
 SF = 1
-WP = input (3.0, step = 0.05)
+WP = input(3.0, step = 0.05)
 WildersPeriod = RSIPeriod * 2 - 1
 rsi = rsi(close, RSIPeriod) // The basic RSI code
 RsiMa = ema(rsi, SF)

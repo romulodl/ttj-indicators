@@ -1,0 +1,16 @@
+// Trix + SMA
+//
+// Original script: Send by @rodenwild from discord channel
+// Used as: C1
+
+trixlength = input(8)
+sma_length = input(32)
+trixsrc = close
+triple = ema(ema(ema(trixsrc, trixlength), trixlength), trixlength)
+trix = roc(triple, 1)
+trixcross = sma(trix, sma_length)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(trix, trixcross)  : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(trix, trixcross) : false

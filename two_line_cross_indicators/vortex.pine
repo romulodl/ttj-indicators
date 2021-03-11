@@ -12,5 +12,5 @@ VIM = VMM / STR
 
 //remove comments to use as C1 triggers
 //Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
-//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(VIM, VIP) : false
-//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossover(VIP, VIM) : false
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(VIP, VIM) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossover(VIM, VIP) : false
