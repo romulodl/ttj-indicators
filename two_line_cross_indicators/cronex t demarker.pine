@@ -1,0 +1,61 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © romulodl
+
+//@version=4
+study("Cronex T Demarker")
+
+demarker_length = input(24)
+dem_step = input(4)
+curvature = input(0.618)
+
+e1 = 0.0
+e2 = 0.0
+e3 = 0.0
+e4 = 0.0
+e5 = 0.0
+e6 = 0.0
+
+deMax = high - high[1] > 0 ? high - high[1] : 0
+deMin = low[1] - low > 0 ? low[1] - low : 0
+
+demarker(dem_length) =>
+    sma_deMax = sma(deMax, dem_length)
+    sma_deMin = sma(deMin, dem_length)
+    sma_deMax / (sma_deMax + sma_deMin)
+
+n  = 1 + 0.5 * (demarker_length - 1)
+w1 = 2 / (demarker_length + 1)
+w2 = 1 - w1
+b2 = curvature * curvature
+b3 = b2 * curvature
+c1 = -b3
+c2 = (3 * (b2 + b3))
+c3 = -3 * (2 * b2 + curvature + b3)
+c4 = (1 + 3 * curvature + b3 + 3 * b2)
+
+demarker_v = (demarker(demarker_length) + demarker(demarker_length + dem_step) + demarker(demarker_length + dem_step * 2) + demarker(demarker_length + dem_step * 3)) * 100 / 4 - 50
+e1 := not na(demarker_v) ? w1 * demarker_v + w2 * e1[1] : 0
+e2 := not na(demarker_v) ? w1 * e1 + w2 * e2[1] : 0
+e3 := not na(demarker_v) ? w1 * e2 + w2 * e3[1] : 0
+e4 := not na(demarker_v) ? w1 * e3 + w2 * e4[1] : 0
+e5 := not na(demarker_v) ? w1 * e4 + w2 * e5[1] : 0
+e6 := not na(demarker_v) ? w1 * e5 + w2 * e6[1] : 0
+
+demarker_t = c1*e6 + c2*e5 + c3*e4 + c4*e3
+
+
+//remove comments to use as C1 triggers - AS A ZERO CROSS!
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(demarker_v, 0) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(demarker_v, 0) : false
+
+//remove comments to use as C1 triggers - AS A SIGNAL LINE CROSS
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(demarker_v, demarker_t) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossunder(demarker_v, demarker_t) : false
+
+//remove comments to use as C2 confirmation
+//Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
+//Ind_2_L_Conf = Ind_2_Check_Conf ? demarker_v > 0 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? demarker_v < 0 : true
+
