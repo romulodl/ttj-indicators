@@ -1,0 +1,40 @@
+// SSL
+//
+// Original script: https://uk.tradingview.com/script/xzIoaIJC-SSL-channel/
+// Used as: C1
+
+maType = input(title="SSL MA Type", options=["EMA", "SMA", "WMA", "VWMA", "ALMA", "HMA"] , defval = "SMA")
+sslLen = input(title="SSL Length", defval=10)
+ 
+// Calc MA for SSL Channel
+SSLcalc_ma(SSLsrc, SSLlen, type) =>
+    float result = 0
+    if type == "SMA" // Simple
+        result := sma(SSLsrc, SSLlen)
+    if type == "EMA" // Exponential
+        result := ema(SSLsrc, SSLlen)
+    if type == "WMA" // Weighted
+        result := wma(SSLsrc, SSLlen)
+    if type == "VWMA" // Volume Weighted
+        result := vwma(SSLsrc, SSLlen)
+    if type == "ALMA" // Arnaud Legoux
+        result := alma(SSLsrc, SSLlen, .85, 6)
+    if type == "HMA" // Hull
+        result := wma(2 * wma(SSLsrc, SSLlen / 2) - wma(SSLsrc, SSLlen), round(sqrt(SSLlen)))
+    result
+
+// Add SSL Channel
+smaHigh = SSLcalc_ma(high, sslLen, maType)
+smaLow = SSLcalc_ma(low, sslLen, maType)
+Hlv = int(na)
+Hlv := close > smaHigh ? 1 : close < smaLow ? -1 : Hlv[1]
+sslDown = Hlv < 0 ? smaHigh : smaLow
+sslUp = Hlv < 0 ? smaLow : smaHigh
+
+plot(sslDown, linewidth=4, color=color.purple, transp=50)
+plot(sslUp, linewidth=4, color=color.yellow, transp=50)
+
+//remove comments to use as C1 triggers
+//Ind_1_Check_Trig = input(true, title = "Indicator 1 - C1 - Trigger")
+//Ind_1_L_Trigger = Ind_1_Check_Trig ? crossover(sslUp, sslDown) : false
+//Ind_1_S_Trigger = Ind_1_Check_Trig ? crossover(sslDown, sslUp) : false
