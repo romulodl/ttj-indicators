@@ -15,5 +15,5 @@ percentR = _pr(wr_length)
 
 //remove comments to use as C2 confirmation
 //Ind_2_Check_Conf = input(true, title = "Indicator 2 - C2 - Confirmation")
-//Ind_2_L_Conf = Ind_2_Check_Conf ? percentR < -50 : true
-//Ind_2_S_Conf = Ind_2_Check_Conf ? percentR > -50 : true
+//Ind_2_L_Conf = Ind_2_Check_Conf ? percentR > -50 : true
+//Ind_2_S_Conf = Ind_2_Check_Conf ? percentR < -50 : true
