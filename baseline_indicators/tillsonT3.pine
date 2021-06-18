@@ -1,0 +1,28 @@
+// Tillson T3 Moving Average by KIVANÇ fr3762
+//
+// Original script: https://www.tradingview.com/script/QpkypNjA/
+// Used as: Baseline
+
+_tillsonT3() =>
+    length1 = input(8, "Tillson T3 - Length")
+    a1 = input(0.7, "Tillson T3 - Volume Factor")
+    
+    e1 = ema((high + low + 2 * close) / 4, length1)
+    e2 = ema(e1, length1)
+    e3 = ema(e2, length1)
+    e4 = ema(e3, length1)
+    e5 = ema(e4, length1)
+    e6 = ema(e5, length1)
+    c1 = -a1 * a1 * a1
+    c2 = 3 * a1 * a1 + 3 * a1 * a1 * a1
+    c3 = -6 * a1 * a1 - 3 * a1 - 3 * a1 * a1 * a1
+    c4 = 1 + 3 * a1 + a1 * a1 * a1 + 3 * a1 * a1
+    T3 = c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3
+    [T3 > T3[1], T3 < T3[1]]
+
+[tillson_long, tillson_short] = _tillsonT3()
+
+//remove comments to use as your baseline - confirmation
+//Ind_4_Check_Conf = input(true, title = "Indicator 4 - BL - Confirmation")
+//Ind_4_L_Conf     = Ind_4_Check_Conf ? tillson_long : true
+//Ind_4_S_Conf     = Ind_4_Check_Conf ? tillson_short : true
